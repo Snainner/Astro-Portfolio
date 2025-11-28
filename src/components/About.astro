@@ -1,0 +1,24 @@
+---
+import Section from "./Section.astro";
+import { Picture, inferRemoteSize } from "astro:assets";
+import type { AboutProps, HeroProps } from "@types";
+import RowSection from "./RowSection.astro";
+import Divider from "./Divider.astro";
+import RoundedImage from "./RoundedImage.astro";
+
+
+type Props = AboutProps & Pick<HeroProps, "name">;
+
+const { description, image, name } = Astro.props;
+---
+  
+<!-- Image -->
+<RoundedImage img={image} alt={name}/>
+<Divider/>
+<!-- About section -->
+<RowSection text="About Me" href="about" description={description}>
+  
+
+
+
+

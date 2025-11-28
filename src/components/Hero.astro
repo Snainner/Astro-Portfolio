@@ -1,0 +1,27 @@
+---
+import type { HeroProps } from "@types";
+type Props = HeroProps;
+
+const { name, specialty, summary, email } = Astro.props;
+---
+
+<section class=" md:-mt-30 z-0 py-24 md:py-32 bg-cover bg-center bg-no-repeat" style="background-image: url('/RomaniaSunset.webp'); " id="#hero">
+  <div class="flex items-center justify-center text-center flex-col mx-auto max-w-3xl px-5">
+
+    <h1
+    class="mb-1.5 font-serif text-7xl font-bold leading-[.9] tracking-tightest text-white sm:text-8xl md:mb-0 md:text-9xl"
+    >
+    {name}
+    </h1>
+    <p
+    class="mb-9 font-sans text-4xl leading-[46px] font-bold tracking-tighter text-[var(--bg-green)] sm:text-5xl md:text-6xl"
+    >
+    {specialty}
+    </p>
+    <p class="mb-16 text-base font-normal text-white md:text-lg">
+      {summary}
+    </p>
+
+    
+</div>
+</section>

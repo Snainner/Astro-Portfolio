@@ -1,0 +1,31 @@
+---
+interface Props {
+  img: string;
+  alt: string;
+}
+
+const { img, alt } = Astro.props;
+---
+
+<section class="py-12 px-4">
+
+    <div class="flex flex-col items-center">
+        <!-- Image -->
+        <div class="flex justify-center md:justify-end">
+            
+            <div class="w-64 h-64 md:w-110 md:h-110 rounded-full overflow-hidden">
+                
+                <img 
+                src={img}
+                width="2154"
+                height="2154"
+                decoding="async"
+                loading="lazy"
+                alt={alt}
+                border-radius="50%"
+                class=" w-full h-full object-cover"
+                />
+            </div>
+            
+        </div>
+</section>
