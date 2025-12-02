@@ -1,6 +1,4 @@
 ---
-import Section from "./Section.astro";
-import { Picture, inferRemoteSize } from "astro:assets";
 import type { AboutProps, HeroProps } from "@types";
 import RowSection from "./RowSection.astro";
 import Divider from "./Divider.astro";
@@ -13,10 +11,10 @@ const { description, image, name } = Astro.props;
 ---
   
 <!-- Image -->
-<RoundedImage img={image} alt={name}/>
+<RoundedImage img={image} alt="about"/>
 <Divider/>
 <!-- About section -->
-<RowSection text="About Me" href="about" description={description}>
+<RowSection text="About Me" href="abouttext" description={description}>
   
 
 

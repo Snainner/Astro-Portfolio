@@ -24,10 +24,11 @@ export interface HeroProps {
 
 export interface ProjectProps {
   name: string;
+  date: string;
   summary: string;
   image: string;
-  linkPreview?: string;
-  linkSource?: string;
+  slug:string;
+  heroImage: string;
 }
 
 export interface AboutProps {

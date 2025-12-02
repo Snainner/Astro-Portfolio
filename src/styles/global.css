@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 :root{
-  --bg-white:#FFFFFF;
   --bg-offwhite:#F9F1E2;
   --bg-blue:#C6DCFF;
   --bg-green:#5F6D3B;
@@ -14,13 +13,21 @@
 
 @theme {
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
-  --font-serif: "Gasoek", ui-serif, serif;
-
+  --font-serif: "Gasoek One", ui-serif, serif;
+  
   --color-primary: #2563eb;
   --color-neutral: #94a3b8;
-  --color-white: #F9F1E2;
+  --color-white: #FFFF;
   --color-black: #0e141b;
 
+  --color-offwhite: #F9F1E2;
+  --color-light-blue:#C6DCFF;
+  --color-dark-blue:#0053D4;
+  --color-green:#5F6D3B;
+  --color-light-green:#E9F9B2;
+  --color-brown:#332115;
+  --color-grey:#756F6C;
+  
   --text-xs: 0.875rem;
   --text-xs--line-height: 1.125rem;
   --text-sm: 1rem;

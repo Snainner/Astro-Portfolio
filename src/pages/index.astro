@@ -2,14 +2,12 @@
 import { SITE_CONTENT } from "@config";
 import Hero from "@components/Hero.astro";
 import Layout from "@layouts/Layout.astro";
-import Projects from "@components/Projects.astro";
-
 
 import "../styles/global.css";
+import FeaturedProjects from "@components/FeaturedProjects.astro";
 ---
 
-<Layout>
+<Layout background="black">
   <Hero slot="hero" {...SITE_CONTENT.hero} />  
-  <Projects projects={SITE_CONTENT.projects} />
-  
+  <FeaturedProjects projects={SITE_CONTENT.projects} />
 </Layout>

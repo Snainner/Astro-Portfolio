@@ -1,0 +1,56 @@
+---
+import Section from "./Section.astro";
+import { Image } from "astro:assets";
+import type { ProjectProps } from "@types";
+
+interface Props {
+  projects: ProjectProps[];
+}
+
+const { projects  } = Astro.props;
+---
+<html>
+
+  <Section text="Featured Projects" href="projects">
+    <!-- Projects Grid - OUTSIDE the loop -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10 md:gap-8 max-w-5xl mx-auto">
+      {projects.slice(0,3).map((project) => (
+        <a 
+        href={project.slug}
+        class="group block bg-[var(--bg-offwhite)] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-5"
+        >
+        <!-- Project Image -->
+        <div class="aspect-video w-full overflow-hidden bg-gray-100">
+          <img 
+            src={project.image}
+            alt={project.name}
+            class="w-full h-full object-cover group-hover:scale-115 transition-transform duration-300"
+            />
+        </div>
+        
+        <!-- Project Info -->
+        <div class="p-6 text-center">
+          <p class="text-xs md:text-sm text-gray-500 mb-2">
+            {project.date}
+          </p>
+          <h2 class="text-xl md:text-2xl font-semibold text-[var(--text-brown)]">
+            {project.name}
+          </h2>
+        </div>
+      </a>
+    ))}
+  </div>
+  <!-- View All Projects Button -->
+  <div class="text-center mt-8">
+    <a 
+    href="/projects"
+    class="inline-flex items-center gap-2 px-6 py-3 bg-[var(--bg-offwhite)] text-[var(--text-brown)] rounded-full hover:bg-[var(--bg-blue)] transition-colors duration-300"
+    >
+    View All Projects
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+    </svg>
+  </a>
+</div>
+  </Section>
+</html>

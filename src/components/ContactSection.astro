@@ -1,0 +1,15 @@
+---
+import Section from "./Section.astro";
+import { Image } from "astro:assets";
+import type { ContactProps } from "@types";
+import RowSection from "./RowSection.astro";
+
+type Props = ContactProps;
+
+const { description} = Astro.props;
+---
+
+<RowSection text="Contact Me" href="contact"  description={description}/>
+
+ 
+ 

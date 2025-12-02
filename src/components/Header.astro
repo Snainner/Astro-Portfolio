@@ -8,12 +8,54 @@ type Props = HeaderProps;
 const { siteLogo, navLinks } = Astro.props;
 ---
 
+<!-- Desktop -->
+<aside class="hidden xl:block fixed left-0 top-0 h-screen w-64 2xl:w-96 bg-light-blue p-8 overflow-y-auto ">
+  <div class="sticky top-8">
+    <a href="/" aria-label="Home Link">
+
+      <h1 class="font-serif text-center text-6xl 2xl:text-8xl text-dark-blue mb-2">
+        Senne<br/>Wander
+      </h1>
+    </a>
+    
+    <div class="my-6 bg-light-blue flex justify-center flex-shrink">
+      <a href="/" aria-label="Home Link">
+        <Image
+          class="flex mix-blend-color-burn transition-all duration-300 hover:contrast-150"
+          width="230"
+          height="230"
+          src={siteLogo}
+          alt="website logo"
+          loading={"eager"} 
+        />
+      </a>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="mt-8">
+      <ul class="space-y-3 flex flex-col text-center">
+        {navLinks.map((link) => (
+          <li>
+            <a 
+              class="nav-item block p-2 2xl:p-3 rounded-md text-sm font-bold text-brown text-[22px] 2xl:text-[24px] cursor-pointer transition-all duration-300  hover:underline hover:text-blue"
+              href={link.href}
+            >
+              {link.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<!-- Mobile Header -->
 <header
-  class="sticky top-0 z-50 mx-auto flex max-w-5xl animate-slide-in justify-between bg-[var(--bg-offwhite)] px-5 py-6 rounded-md"
+  class="xl:hidden sticky top-0 z-50 mx-auto flex items-center max-w-xl animate-slide-in justify-between bg-offwhite px-5 py-4 rounded-md"
 >
   <a href="/" aria-label="Home link">
     <Image
-      class="rounded-full mix-blend-hard-light contrast-120 hover:contrast-150"
+      class="flex justify-center rounded-full mix-blend-hard-light contrast-120 duration-500 hover:contrast-150"
       src={siteLogo}
       width="100"
       height="100"
@@ -21,7 +63,6 @@ const { siteLogo, navLinks } = Astro.props;
       loading={"eager"}
     />
   </a>
-
   <button
     type="button"
     id="menu-button"
@@ -31,19 +72,17 @@ const { siteLogo, navLinks } = Astro.props;
   >
     <Menu />
   </button>
-
+  <!-- Mobile Nav -->
   <nav
-    class="absolute top-20 right-5 hidden rounded-2xl border border-neutral/40 bg-black px-4 py-5 text-[var(--text-grey)] sm:static sm:block sm:border-0 sm:bg-transparent sm:p-0"
+    class="absolute top-20 left-1/2 -translate-x-1/2 w-[calc(100%-2.5rem)] hidden rounded-2xl border border-neutral/40 bg-black px-4 py-5 text-brown items-center  sm:static sm:left-auto sm:translate-x-0 sm:w-auto sm:block sm:border-0 sm:bg-transparent sm:p-0"
     id="main-menu"
   >
-    <ul class="gap-2 sm:flex">
+    <ul class="gap-2 sm:flex flex items-center">
       {
         navLinks.map((link) => (
-          <li class="relative">
-            <a
-              class={`nav-item relative block p-2 rounded-md text-sm font-medium transition-all duration-500 after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-[var(--text-grey)] after:opacity-0 after:content-['•'] hover:text-[var(--text-brown)]`}
-              href={link.href}
-            >
+          <li class="relative flex items-center"
+          >
+            <a class="nav-item relative block p-2 rounded-md text-sm font-medium text-center transition-all duration-500 after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-brown after:opacity-0 after:content-['•'] hover:text-[var(--text-brown)]" href={link.href}>
               {link.text}
             </a>
           </li>
@@ -79,7 +118,7 @@ const { siteLogo, navLinks } = Astro.props;
             if (item.getAttribute("href") === `#${entry.target.id}`) {
               item.classList.add("text-black", "md:after:opacity-100");
             } else {
-              item.classList.remove("text-black", "md:after:opacity-100");
+              item.classList.remove("text-white", "md:after:opacity-100");
             }
           });
         }
