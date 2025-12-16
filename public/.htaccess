@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Serve index.html for directories
+  DirectoryIndex index.html
+  
+  # If the request is a directory, serve its index.html
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^(.+)/$ $1/index.html [L]
+  
+  # Add .html to extensionless URLs if the file exists
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+  
+  # Handle trailing slashes
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)/$ /$1 [L,R=301]
+</IfModule>

@@ -2,14 +2,14 @@
 import type { HeroProps } from "@types";
 type Props = HeroProps;
 
-const { name, specialty, summary, email } = Astro.props;
+const { name, specialty, summary } = Astro.props;
 ---
 
-<section class="md:-mt-30 z-0 py-24 md:py-36 bg-cover bg-no-repeat overflow-hidden  bg-center md:bg-cover md:bg-center" style="background-image: url('/RomaniaSunset.webp'); bg-cover;" id="#hero">
-  <div class="flex items-center justify-center text-center flex-col mx-auto max-w-3xl px-5">
+<section class=" bg-cover bg-fixed bg-no-repeat overflow-hidden bg-center -mt-30 md:-mt-30 z-0 py-24 md:py-36 md:bg-bottom " style="background-image: url('/RomaniaSunset.webp'); bg-cover;" id="#hero">
+  <div class="flex items-center justify-center text-center flex-col mx-auto max-w-3xl px-5 ">
 
     <h1
-    class="mt-0 mb-1.5 font-serif text-7xl leading-[.9] tracking-tightest text-offwhite sm:text-8xl md:mt-25 md:mb-5 md:text-9xl"
+    class="mt-0 mb-1.5 font-serif text-7xl leading-[.9] tracking-tightest text-offwhite mt-20 sm:text-8xl md:mt-25 md:mb-5 md:text-9xl mix-blend-exclusion "
     >
     {name}
     </h1>

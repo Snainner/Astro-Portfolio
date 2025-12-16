@@ -1,36 +1,54 @@
-import ---
-import { SITE_CONTENT } from "@config";
+---
 import Layout from "../layouts/Layout.astro"
 import "../styles/global.css";
-import { Image } from "astro:assets";
-import type { ProjectProps } from "@types";
 import Divider from "./Divider.astro";
+
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post: CollectionEntry<'posts'>) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
 ---
 
 <html>
     <Layout backgroundColour="bg-white">
-        <div slot="hero" class="h-[400px] md:h-[600px] md:-mt-30 z-0 py-24 md:py-36 bg-cover bg-no-repeat overflow-hidden  bg-center md:bg-cover md:bg-center" style="background-image: url('/spotifu.png'); bg-cover;" id="#hero">
+        <div slot="hero" class="h-[400px] md:h-[600px] md:-mt-30 z-0 py-24 md:py-36 bg-fixed bg-cover bg-no-repeat overflow-hidden  bg-center md:bg-cover md:bg-center" style="background-image: url(${post.data.image}; bg-cover;" id="#hero">
         </div>
         <section>
 
             <div class="mt-12">
                 <h2 class="font-sans font-extrabold tracking-tight text-center text-6xl text-brown">
-                    Game Title
+                    {post.data.title}
                 </h1>
                 <p class="text-center text-brown py-4">
-                    Date
+                    {post.data.publishDate}
                 </p>
             </div>
+
+            <div class="tags">
+            {post.data.tags.map((tag) => (
+            <span class="tag">{tag}</span>
+            ))}
+            </div>
+
             <Divider colour="border-brown"></Divider>
-            <p class="font sans max-w-xs md:max-w-2xl mx-auto">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis, ipsum. Sint explicabo nam, exercitationem nihil excepturi commodi ipsa unde architecto accusantium ad nisi alias! Temporibus debitis consectetur accusantium quasi asperiores totam in praesentium necessitatibus fuga soluta harum, maiores facere ut, ipsa, cumque aspernatur rerum corporis quo dignissimos perferendis esse fugiat! Nulla alias fugit qui harum minima deleniti! Laboriosam incidunt atque eos ea. Omnis voluptatibus nemo modi blanditiis laboriosam ea, consectetur ratione aperiam, dolorum nobis voluptatem sint vero reiciendis vel molestias distinctio illo earum velit iste. Aperiam eaque veniam minima impedit cupiditate dolor quasi obcaecati sit blanditiis maiores. In, deserunt a?</p>
+         
+            <Content class="prose prose-slate font sans max-w-xs md:max-w-2xl mx-auto"/>
+           
             <Divider colour="border-brown"></Divider>
             
-            <img 
-            src="/assets/Noet&PeerVectorized.svg" 
-            width="250"
-            height="250"
-            class="mx-auto mb-10 md:h-[350] md:w-[350] "
-            />
+           
             
         </section>
     </Layout>

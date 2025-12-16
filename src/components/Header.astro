@@ -39,6 +39,7 @@ const { siteLogo, navLinks } = Astro.props;
             <a 
               class="nav-item block p-2 2xl:p-3 rounded-md text-sm font-bold text-brown text-[22px] 2xl:text-[24px] cursor-pointer transition-all duration-300  hover:underline hover:text-blue"
               href={link.href}
+              data-astro-reload
             >
               {link.text}
             </a>
@@ -51,14 +52,14 @@ const { siteLogo, navLinks } = Astro.props;
 
 <!-- Mobile Header -->
 <header
-  class="xl:hidden sticky top-0 z-50 mx-auto flex items-center max-w-xl animate-slide-in justify-between bg-offwhite px-5 py-4 rounded-md"
+  class="xl:hidden sticky top-0 z-50 mx-auto flex items-center max-w-xl animate-slide-in justify-between bg-offwhite px-6 py-4 rounded-md"
 >
   <a href="/" aria-label="Home link">
     <Image
       class="flex justify-center rounded-full mix-blend-hard-light contrast-120 duration-500 hover:contrast-150"
       src={siteLogo}
-      width="100"
-      height="100"
+      width="125"
+      height="125"
       alt="website logo"
       loading={"eager"}
     />
@@ -66,23 +67,27 @@ const { siteLogo, navLinks } = Astro.props;
   <button
     type="button"
     id="menu-button"
-    class="px-1.5 text-neutral sm:hidden"
+    class="p-4 text-neutral sm:hidden touch-manipulation min-w-[48px] min-h-[48px] flex items-center justify-center"
     aria-expanded="false"
     aria-controls="main-menu"
+    aria-label="Toggle menu"
   >
     <Menu />
   </button>
   <!-- Mobile Nav -->
   <nav
-    class="absolute top-20 left-1/2 -translate-x-1/2 w-[calc(100%-2.5rem)] hidden rounded-2xl border border-neutral/40 bg-black px-4 py-5 text-brown items-center  sm:static sm:left-auto sm:translate-x-0 sm:w-auto sm:block sm:border-0 sm:bg-transparent sm:p-0"
+    class="absolute top-20 left-1/2 -translate-x-1/2 w-[calc(100%-2.5rem)] hidden rounded-2xl border border-neutral/40 bg-offwhite px-4 py-5 text-brown sm:static sm:left-auto sm:translate-x-0 sm:w-auto sm:flex sm:border-0 sm:bg-transparent sm:p-0"
     id="main-menu"
   >
-    <ul class="gap-2 sm:flex flex items-center">
+    <ul class="flex flex-col gap-2 sm:flex-row sm:items-center">
       {
         navLinks.map((link) => (
-          <li class="relative flex items-center"
-          >
-            <a class="nav-item relative block p-2 rounded-md text-sm font-medium text-center transition-all duration-500 after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-brown after:opacity-0 after:content-['•'] hover:text-[var(--text-brown)]" href={link.href}>
+          <li class="relative flex items-center">
+            <a 
+              class="nav-item relative block p-2 rounded-md text-sm font-medium text-center transition-all duration-500 after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-brown after:opacity-0 after:content-['•'] hover:text-[var(--text-brown)]" 
+              href={link.href}
+              data-astro-reload
+            >
               {link.text}
             </a>
           </li>
@@ -96,7 +101,7 @@ const { siteLogo, navLinks } = Astro.props;
   // Toggle mobile menu
   const button = document.querySelector("#menu-button");
   const menu = document.querySelector("#main-menu");
-  const navItems = document.querySelectorAll("#main-menu > ul > li > a");
+  const navItems = document.querySelectorAll("#main-menu a.nav-item");
 
   const toggleMenu = () => {
     menu?.classList.toggle("hidden");
@@ -105,8 +110,15 @@ const { siteLogo, navLinks } = Astro.props;
   };
 
   button?.addEventListener("click", toggleMenu);
+
+  // Close menu when a nav item is clicked (mobile only)
   navItems.forEach((item) => {
-    item?.addEventListener("click", toggleMenu);
+    item?.addEventListener("click", () => {
+      // Only toggle on mobile (when menu button is visible)
+      if (window.innerWidth < 640 && !menu?.classList.contains("hidden")) {
+        toggleMenu();
+      }
+    });
   });
 
   // Update navigation based on scroll position with Intersection Observer
@@ -115,32 +127,39 @@ const { siteLogo, navLinks } = Astro.props;
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           navItems.forEach((item) => {
-            if (item.getAttribute("href") === `#${entry.target.id}`) {
+            const href = item.getAttribute("href");
+            if (href === `#${entry.target.id}`) {
               item.classList.add("text-black", "md:after:opacity-100");
+              item.classList.remove("text-brown");
             } else {
-              item.classList.remove("text-white", "md:after:opacity-100");
+              item.classList.remove("text-black", "md:after:opacity-100");
+              item.classList.add("text-brown");
             }
           });
         }
       });
     },
-    { threshold: 0.5 },
+    { 
+      threshold: 0.5,
+      rootMargin: "-100px 0px -100px 0px"
+    }
   );
 
-  document.querySelectorAll("section").forEach((section) => {
+  // Observe all sections
+  document.querySelectorAll("section[id]").forEach((section) => {
     observer.observe(section);
   });
 
   // Cleanup observer
-  document.onvisibilitychange = () => {
+  document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") {
       observer.disconnect();
     } else {
-      document.querySelectorAll("section").forEach((section) => {
+      document.querySelectorAll("section[id]").forEach((section) => {
         observer.observe(section);
       });
     }
-  };
+  });
 </script>
 
 <style>

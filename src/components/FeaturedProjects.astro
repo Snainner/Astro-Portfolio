@@ -1,50 +1,53 @@
 ---
 import Section from "./Section.astro";
-import { Image } from "astro:assets";
-import type { ProjectProps } from "@types";
+import { Image} from "astro:assets";
 
-interface Props {
-  projects: ProjectProps[];
-}
+import { getCollection, type CollectionEntry } from 'astro:content';
 
-const { projects  } = Astro.props;
+const posts = await getCollection('posts');
+
 ---
 <html>
 
   <Section text="Featured Projects" href="projects">
-    <!-- Projects Grid - OUTSIDE the loop -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10 md:gap-8 max-w-5xl mx-auto">
-      {projects.slice(0,3).map((project) => (
-        <a 
-        href={project.slug}
-        class="group block bg-[var(--bg-offwhite)] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-5"
-        >
-        <!-- Project Image -->
-        <div class="aspect-video w-full overflow-hidden bg-gray-100">
-          <img 
-            src={project.image}
-            alt={project.name}
-            class="w-full h-full object-cover group-hover:scale-115 transition-transform duration-300"
+  
+    <!-- Featured Projects Grid -->
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  md:gap-12 place-items-center px-6">                    
+      {posts
+      .filter((post: CollectionEntry<'posts'>) => post.data.featured === true)
+      .map((post: CollectionEntry<'posts'>) => (
+      
+      <div class=" p-5">
+      <a 
+      href={`/${post.slug}`}
+      class="group block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+      >
+        <div class="aspect-4/3 w-full overflow-hidden bg-white items-center p-4">
+          <Image
+            src = {post.data.image}
+            alt={post.data.title}
+            width="400"
+            height="400"
+            loading="lazy"
+            class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
             />
         </div>
         
-        <!-- Project Info -->
-        <div class="p-6 text-center">
-          <p class="text-xs md:text-sm text-gray-500 mb-2">
-            {project.date}
-          </p>
-          <h2 class="text-xl md:text-2xl font-semibold text-[var(--text-brown)]">
-            {project.name}
+        <div class="p-4">
+          <h2 class="text-lg md:text-xl text-center font-semibold text-brown mb-5">
+            {post.data.title}
           </h2>
         </div>
       </a>
+    </div>
     ))}
-  </div>
+</div>
   <!-- View All Projects Button -->
   <div class="text-center mt-8">
     <a 
     href="/projects"
-    class="inline-flex items-center gap-2 px-6 py-3 bg-[var(--bg-offwhite)] text-[var(--text-brown)] rounded-full hover:bg-[var(--bg-blue)] transition-colors duration-300"
+    class="inline-flex items-center gap-2 px-6 py-3 bg-offwhite text-brown rounded-full hover:bg-brown hover:text-offwhite transition-all duration-300"
     >
     View All Projects
     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

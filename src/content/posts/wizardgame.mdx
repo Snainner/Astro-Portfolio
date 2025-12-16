@@ -1,0 +1,31 @@
+---
+title: "Wand Breaker"
+description: "An Unreal engine project containing multiple gameplay systems"
+publishDate: "2025"
+tags: ["Unreal Engine"]
+image: "/projectimages/WizardGameHero.jpg"
+featured: true
+---
+import Carousel from '../../components/Carousel.astro'; 
+
+This project was created as a sandbox for me to explore unreal engine and to build systems. My previous unreal project I was in charge of developing for a wizard character, which stuck with me and why it has a wizard theme. In the project you can find an enemy AI, spell and damage system. 
+## Why it was created 
+Some of the things I wanted to learn were how to work with animations, particles and AI. The most important part for me was to create these systems easily adjustable for everyone. Meaning that accessibility to create new variations was an important consideration during development. Some of the systems can be streamlined better in the future, as for now it was more important to get them working. 
+## Gained Knowledge
+Before starting this project I had a weak understanding of Unreal Engine, but through this project I have started to feel more comfortable developing with it and using its tools. Now I have clearer understanding of systems like interfaces, events and actor components. 
+I also had a lot of fun learning the Niagara system and the material builder. These more visual aspects of game design I usually leave for when I am too tired to program but still have the itch to work on something. 
+
+# Spell Interaction system
+To give players the freedom to create powerful attacks, I created a spell combo system. With this system spells can check for other active status effects to combine into a more powerful spell, for example when a bunch of enemies are wet because of a water spell, an electric spell can combo with the wet state and create a chain lighting attack.   
+### Code
+For this system I took a tag based approach in conjunction with status effect objects. These status  objects contain the periodic event timer for dealing damage and the duration timer to remove itself after it is done, they also hold the tags they add while the effect is active. 
+#### Interactions
+In this system incoming status effects are compared with active statuses against an array of possible combos. When a combo is found the resulting tag is found in a map of tags and status effect objects. 
+### Creating new attack effects  
+Creating new status effects, combos and attacks is a simple process. 
+For a new status effect a child of the status effect base class is created. In these base class all the basic variables are editable, such as duration, damage amount, tags, etc. This process is the same for creating a new projectile with the spell data asset. 
+With the tag system there is functionality for tags that can either be required or prevent this status effect from being activated. 
+### Spell Combo
+To create a new combo an entry is made in the interaction data table. After that in the spell interaction component a new entry is added to the Combo Effect Object map. This map takes the resulting gameplay tag and a status effect object class. 
+
+<Carousel folder="wandbreaker" videos={["WandBreakerShowcase.mp4"]} />

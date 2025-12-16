@@ -11,16 +11,25 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
+    "@astrojs/mdx": "^4.3.12",
     "@fontsource-variable/gabarito": "^5.1.0",
     "@fontsource/be-vietnam-pro": "^5.1.0",
     "@fontsource/gasoek-one": "^5.2.7",
     "@fontsource/plus-jakarta-sans": "^5.2.8",
     "@tailwindcss/vite": "^4.1.12",
     "astro": "^5.14.4",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-auto-height": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "kleur": "^4.1.5",
+    "lucide-react": "^0.555.0",
+    "photoswipe": "^5.4.4",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.1.12",
     "typescript": "^5.6.2"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.11"

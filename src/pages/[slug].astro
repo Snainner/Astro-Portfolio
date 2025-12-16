@@ -1,0 +1,69 @@
+---
+import Divider from '@components/Divider.astro';
+import Layout from '@layouts/Layout.astro';
+import Prose from '@components/Prose.astro';
+import "../styles/global.css";
+import NoetPeer from '@../../assets/NoetPeer.png';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post: CollectionEntry<'posts'>) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const displayImage = post.data.heroImage || post.data.image;
+--- 
+
+<html>
+    <Layout backgroundColour="bg-white">
+        <div slot="hero" class="h-[400px] md:h-[600px] -mt-30 z-0 py-24 md:py-36 bg-fixed bg-cover bg-no-repeat overflow-hidden  bg-bottom md:bg-cover md:bg-bottom" style={`background-image: url(${displayImage});`} id="#hero">
+        </div>
+        <section>
+
+            <div class="mt-12">
+                <h2 class="font-sans font-extrabold tracking-tight text-center text-6xl text-brown">
+                    {post.data.title}
+                </h2>
+                <p class="text-center text-brown py-4">
+
+                    {post.data.publishDate}
+                </p>
+
+                <div class="tags flex justify-center">
+                {post.data.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+                ))}
+                </div>
+            </div>
+
+            <Divider colour="border-brown"></Divider>
+            <Prose>
+                <Content />
+            </Prose>
+            
+            <Divider colour="border-brown"></Divider>
+            
+            <a href="/projects" aria-label="Project Page">
+                <Image 
+                src={NoetPeer} 
+                alt="Project Page"
+                width="250"
+                height="250"
+                class="mx-auto mb-10 md:w-[350] transition duration-300 ease-in-out hover:contrast-110 hover:saturate-120"
+                />
+            </a>
+            
+        </section>
+    </Layout>
+</html>

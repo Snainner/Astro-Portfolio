@@ -52,16 +52,16 @@ const ogImgUrl = canonicalURL + socialImage;
   <body class={`${backgroundColour ?? 'bg-green'} min-h-screen flex flex-col font-sans`}>
     <Header siteLogo={siteLogo} navLinks={navLinks} />
     
-    <div class="xl:pl-64 flex-1">
+    <div class="xl:pl-64 2xl:pl-96 flex-1">
 
       <slot name ="hero" />
       
-      <main class=" mx-auto max-w-2xl px-2 md:max-w-5xl md:px-5 ">
+      <main class=" mx-auto max-w-2xl md:max-w-6xl">
         <slot />
       </main>
     </div>
       <slot name="full-width" />
-    <div class="xl:pl-64">
+    <div class="xl:pl-64 2xl:pl-96">
       <Footer author={author} socialLinks={socialLinks} />
     </div>
   </body>

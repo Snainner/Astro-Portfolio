@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root{
   --bg-offwhite:#F9F1E2;
@@ -70,3 +71,115 @@
     }
   }
 }
+.pswp__img {
+  object-fit: contain !important;
+}
+.pswp {
+  z-index: 99999 !important;
+}
+
+.pswp__bg {
+  background: rgba(0, 0, 0, 0.95) !important;
+}
+
+.embla { 
+
+  --slide-height: 19rem;
+  --slide-spacing: 1rem;
+  --slide-size: 100%;
+  --max-image-height: 600px;
+  margin: 2rem auto; 
+  position: relative; 
+}
+
+  .embla__viewport { 
+    overflow: hidden; 
+    border-radius: 12px;
+    max-height: var(--max-image-height);
+  }
+  
+  .embla__container {
+    display: flex; 
+    align-items: flex-start; 
+    touch-action: 
+    pan-y pinch-zoom; 
+  }
+
+  .embla__slide { 
+    flex: 0 0 100%; 
+    min-width: 0; 
+    max-height: var(--max-image-height);
+  }
+
+  .embla__media { 
+    display: block; 
+    width: 100%;  
+    height: auto; 
+    max-height: var(--max-image-height);
+    object-fit: contain; 
+  }
+
+  .embla__clickable { 
+    cursor: pointer; 
+    transition: opacity 0.2s; 
+    max-height: var(--max-image-height);
+  }
+
+  .embla__clickable:hover { 
+    opacity: 0.9; 
+  }
+
+  video.embla__media { background: #000; max-height: var(--max-image-height);}
+  .embla__caption { 
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: white; padding: 2rem 1rem 1rem; font-size: 0.95rem;
+  }
+  .embla__btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: var(--bg-offwhite); border: none;
+    width: 48px; height: 48px; border-radius: 50%;
+    cursor: pointer; z-index: 10; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; color: #333;
+  }
+  .embla__btn:hover { background: white; transform: translateY(-50%) scale(1.1); }
+  .embla__btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .embla__btn--prev { left: 1rem; }
+  .embla__btn--next { right: 1rem; }
+  .embla__dots { display: flex; justify-content: center; gap: 0.5rem;  }
+  .embla__dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid #ccc; background: transparent;
+    cursor: pointer; transition: all 0.3s; padding: 0;
+  }
+  .embla__dot--selected { background: var(--text-brown); border-color: var(--text-brown); }
+
+  .lightbox {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); z-index: 9999; align-items: center; justify-content: center;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox__content { max-width: 90vw; max-height: 90vh; }
+  .lightbox__content img { max-width: 100%; max-height: 90vh; object-fit: contain; }
+  .lightbox__close, .lightbox__nav {
+    position: absolute; background: rgba(255,255,255,0.2); border: none;
+    color: white; font-size: 3rem; width: 60px; height: 60px;
+    border-radius: 50%; cursor: pointer; transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center; line-height: 1;
+  }
+  .lightbox__close:hover, .lightbox__nav:hover { background: rgba(255,255,255,0.3); }
+  .lightbox__close { top: 1rem; right: 1rem; }
+  .lightbox__prev { left: 2rem; top: 50%; transform: translateY(-50%); }
+  .lightbox__next { right: 2rem; top: 50%; transform: translateY(-50%); }
+
+  @media (max-width: 768px) {
+    .embla{
+      --max-image-height: 400px;
+    }
+    .embla__btn { width: 36px; height: 36px; }
+    .embla__btn--prev { left: 0.5rem; }
+    .embla__btn--next { right: 0.5rem; }
+    .lightbox__close, .lightbox__nav { width: 48px; height: 48px; font-size: 2rem; }
+    .lightbox__prev { left: 1rem; }
+    .lightbox__next { right: 1rem; }
+  }

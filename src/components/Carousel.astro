@@ -1,0 +1,148 @@
+---
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  folder?: string;
+  images?: string[];
+  videos?: string[]; // Explicit list of video filenames in public/videos/{folder}/
+  alt?: string[];
+  captions?: string[];
+  loop?: boolean;
+  autoplay?: boolean;
+  autoplayDelay?: number;
+}
+
+const { 
+  folder, 
+  images: manualImages,
+  videos = [],
+  alt = [], 
+  captions = [], 
+  loop = true, 
+  autoplay = false, 
+  autoplayDelay = 3000 
+} = Astro.props;
+
+type MediaItem = {
+  src: string;
+  isVideo: boolean;
+  width?: number;
+  height?: number;
+  filename: string; // For sorting
+};
+
+let mediaItems: MediaItem[] = [];
+
+if (folder) {
+  let imageItems: MediaItem[] = [];
+  
+  // Try to import images from src/assets (will be optimized)
+  try {
+    const allImages = import.meta.glob(
+      '/src/assets/**/*.{jpg,jpeg,png,webp,PNG,JPG,JPEG}', 
+      { eager: true }
+    ) as Record<string, { default: ImageMetadata }>;
+    
+    const folderImages = Object.entries(allImages)
+      .filter(([path]) => path.includes(folder))
+      .sort(([pathA], [pathB]) => pathA.localeCompare(pathB));
+
+    // Process images if any exist
+    if (folderImages.length > 0) {
+      imageItems = await Promise.all(
+        folderImages.map(async ([path, module]) => {
+          const optimized = await getImage({ 
+            src: module.default, 
+            format: 'webp', 
+            width: 1200 
+          });
+          
+          // Extract filename for sorting
+          const filename = path.split('/').pop() || '';
+          
+          return {
+            src: optimized.src,
+            isVideo: false,
+            width: optimized.attributes.width,
+            height: optimized.attributes.height,
+            filename
+          };
+        })
+      );
+    }
+  } catch (e) {
+    // No images found in src/assets for this folder, that's okay
+    console.log(`No images found in src/assets for folder: ${folder}`);
+  }
+
+  // Add videos from public folder
+  const videoItems: MediaItem[] = videos.map(videoFilename => {
+    return {
+      src: `/videos/${folder}/${videoFilename}`,
+      isVideo: true,
+      filename: videoFilename
+    };
+  });
+
+  // Combine images and videos, sort by filename
+  mediaItems = [...imageItems, ...videoItems].sort((a, b) => 
+    a.filename.localeCompare(b.filename)
+  );
+  
+} else if (manualImages) {
+  // Handle manually provided media paths (can be mix of images/videos)
+  mediaItems = manualImages.map((src, index) => ({
+    src,
+    isVideo: /\.(mp4|webm|ogg|mov)$/i.test(src),
+    filename: src.split('/').pop() || `${index}`
+  }));
+}
+---
+
+<div class="embla" data-loop={loop} data-autoplay={autoplay} data-delay={autoplayDelay}>
+  <div class="embla__viewport">
+    <div class="embla__container">
+      {mediaItems.map((item, i) => (
+        <div class="embla__slide">
+          {item.isVideo ? (
+            <video 
+              src={item.src} 
+              class="embla__media" 
+              controls 
+              loop 
+              muted 
+              playsinline
+              preload="metadata"
+            />
+          ) : (
+            <a 
+              href={item.src} 
+              class="embla__media embla__clickable" 
+              data-pswp-width={item.width || 'auto'}
+              data-pswp-height={item.height || 'auto'}
+              data-prevent-default="true"
+            >            
+              <img 
+                src={item.src} 
+                alt={alt[i] || `Slide ${i + 1}`}
+                width={item.width}
+                height={item.height}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            </a>
+          )}
+          {captions[i] && <div class="embla__caption">{captions[i]}</div>}
+        </div>
+      ))}
+    </div>
+  </div>
+  <button class="embla__btn embla__btn--prev" type="button" aria-label="Previous slide">‹</button>
+  <button class="embla__btn embla__btn--next" type="button" aria-label="Next slide">›</button>
+  <div class="embla__dots"></div>
+</div>
+
+<script>
+  import "/src/scripts/carousel.ts";
+</script>

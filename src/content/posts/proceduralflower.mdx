@@ -1,0 +1,20 @@
+---
+title: "Procedural Flower"
+description: " "
+publishDate: "2023"
+tags: ["Houdini"]
+image: "/projectimages/LSystemHero.png"
+featured: false
+---
+import Carousel from '../../components/Carousel.astro'; 
+
+My first attempt at this effect was based on a pre-existing mesh which then gets disconnected into different sections. From these sections the stems get deconstructed into points then a primitive tube gets deformed to those points of the original stem to recreate it procedurally. 
+The flowers can’t easily be replicated like that so they get packed into primitive points. 
+
+The new stems then get animated and coloured white while the flowers get coloured black. To connect the flowers and the stems in the animation the colour of the stems get transferred to the flowers once the stems reach them. Once the primitive points of the flower get coloured white they start the scale up until their original scale. 
+
+This method is great for quick results and easy customizability of the base mesh. The effect however starts to fall apart when looking at the flower growth. The scaling method causes disconnected pieces of the flower to grow in mid air. 
+
+The next method I used are L-Systems. L-systems are a great tool to create complex organic structures like trees, snowflakes or other branching systems. It uses letters and other writing symbols to create rules which when combined generate those amazing shapes. For the flower I created a system to create and animate petals in a flower like shape. These flowers are then used on the L-System with their baked animation. The downsides of L-Systems are there difficulty to work with, making it harder to experiment with and adapt to other procedural techniques. 
+
+<Carousel folder="ProceduralFlower" videos={["FinalLSystem.mp4", "FirstLSystem.mp4", "SecondLSystem.mp4", "FlowerOnly.mp4"]} />
