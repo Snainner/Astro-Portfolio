@@ -1,10 +1,44 @@
 ---
 
-const {colour} = Astro.props; 
+interface Props {
+  colour?: string;
+  class?: string;
+  paddingY?: string;
+  paddingX?: string;
+  mdPaddingY?: string;
+  mdPaddingX?: string;
+}
+
+const {
+  colour = "border-light-green",
+  class: className,
+  paddingY = "1rem",
+  paddingX = "0.5rem",
+  mdPaddingY = "4rem",
+  mdPaddingX = "1rem",
+} = Astro.props;
 ---
 
-<html>
-    <section class="py-4 px-2 md:py-16 md:px-4">
-        <div class= {`${colour ?? 'border-light-green'} w-full border-t-1 border-dashed`}></div>
-    </section>
-</html>
+<section
+  class:list={["divider", className]}
+  style={{
+    "--divider-y": paddingY,
+    "--divider-x": paddingX,
+    "--divider-md-y": mdPaddingY,
+    "--divider-md-x": mdPaddingX,
+  }}
+>
+  <div class:list={[colour, "w-full border-t-1 border-dashed"]}></div>
+</section>
+
+<style>
+  .divider {
+    padding: var(--divider-y) var(--divider-x);
+  }
+
+  @media (min-width: 48rem) {
+    .divider {
+      padding: var(--divider-md-y) var(--divider-md-x);
+    }
+  }
+</style>

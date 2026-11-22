@@ -1,16 +1,14 @@
 ---
 import Divider from "@components/Divider.astro";
+import { render, type CollectionEntry } from "astro:content";
 
 interface Props {
-  company: string;
-  companyLink?: string;
-  role: string;
-  startDate: string;
-  endDate: string;
-  summary: string;
+  entry: CollectionEntry<"experience">;
 }
 
-const { company, companyLink, role, startDate, endDate, summary } = Astro.props;
+const { entry } = Astro.props;
+const { company, companyLink, role, startDate, endDate, summary } = entry.data;
+const { Content } = await render(entry);
 const dialogId = `experience-dialog-${crypto.randomUUID()}`;
 
 ---
@@ -49,7 +47,7 @@ const dialogId = `experience-dialog-${crypto.randomUUID()}`;
       id={dialogId}
       data-experience-dialog
       aria-labelledby={`${dialogId}-title`}
-      class="m-auto w-[calc(100%-2rem)] max-w-2xl rounded-2xl bg-green p-0 text-light-green shadow-2xl backdrop:bg-black/70"
+      class="m-auto w-[calc(100%-2rem)] md:max-w-2xl rounded-2xl lg:max-w-6xl bg-green p-0 text-light-green shadow-2xl backdrop:bg-black/70"
     >
       <div class="max-h-[85vh] overflow-y-auto p-6 sm:p-8">
         <div class="mb-6 flex items-start justify-between gap-4">
@@ -63,9 +61,12 @@ const dialogId = `experience-dialog-${crypto.randomUUID()}`;
             </h2>
             <p class="mb-2 font-semibold text-light-green">{role}</p>
             <p class="mb-2 font-semibold text-light-green">{startDate} till {endDate}</p>
-            <p class="text-sm text-light-green">{summary}</p>
-            <Divider />
+            <div class="markdown-content">
+              <Divider mdPaddingY="1rem" mdPaddingX="0"/>
+              <Content />
+            </div>    
           </div>
+          
           <form method="dialog">
             <button
               type="submit"
@@ -75,9 +76,6 @@ const dialogId = `experience-dialog-${crypto.randomUUID()}`;
               &times;
             </button>
           </form>
-        </div>
-        <div class="space-y-4 text-sm leading-6 sm:text-base">
-          <slot name="details" />
         </div>
       </div>
     </dialog>

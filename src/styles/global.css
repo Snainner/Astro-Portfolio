@@ -183,3 +183,30 @@
     .lightbox__prev { left: 1rem; }
     .lightbox__next { right: 1rem; }
   }
+  
+  .markdown-content h1,
+  .markdown-content h2,
+  .markdown-content h3 {
+    color: inherit;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-block: 1.25em 0.5em;
+  }
+  
+  .markdown-content ul,
+  .markdown-content ol {
+    margin-block: 0.75em;
+    padding-inline-start: 1.5em;
+  }
+  
+  .markdown-content ul {
+    list-style: disc;
+  }
+  
+  .markdown-content ol {
+    list-style: decimal;
+  }
+  
+  .markdown-content li + li {
+    margin-top: 0.25em;
+  }
