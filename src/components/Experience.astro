@@ -1,0 +1,109 @@
+---
+import Divider from "@components/Divider.astro";
+
+interface Props {
+  company: string;
+  companyLink?: string;
+  role: string;
+  startDate: string;
+  endDate: string;
+  summary: string;
+}
+
+const { company, companyLink, role, startDate, endDate, summary } = Astro.props;
+const dialogId = `experience-dialog-${crypto.randomUUID()}`;
+
+---
+
+<article
+    data-experience-card
+    class="mx-6 flex flex-col justify-between gap-5 rounded-2xl bg-offwhite p-6 text-brown shadow-lg md:mx-auto md:h-[15rem] md:max-w-4xl md:flex-row md:items-center md:gap-8 md:p-8"
+  >
+    <div class="min-w-0 md:max-w-2xl md:flex-1">
+      <div class="mb-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+        <h3 class="text-2xl font-bold tracking-tight md:text-3xl">
+          {companyLink ? (
+            <a href={companyLink} target="_blank" rel="noopener noreferrer" class="hover:underline">{company}</a>
+          ) : (
+            company
+          )}
+        </h3>
+        <p class="shrink-0 rounded-full  md:px-0 py-1 text-sm font-semibold leading-5 text-grey">{startDate} till {endDate}</p>
+      </div>
+      <p class="mb-3 text-lg font-semibold text-green">{role}</p>
+      <p class="line-clamp-3 text-sm leading-6 text-brown md:text-base">{summary}</p>
+    </div>
+
+    <button
+      type="button"
+      data-experience-open={dialogId}
+      aria-haspopup="dialog"
+      aria-controls={dialogId}
+      class="inline-flex shrink-0 items-end justify-end gap-2 self-start rounded-full bg-green px-5 py-3 font-semibold text-offwhite transition-colors hover:bg-brown focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brown md:self-end"
+    >
+      More info
+      <span aria-hidden="true">→</span>
+    </button>
+
+    <dialog
+      id={dialogId}
+      data-experience-dialog
+      aria-labelledby={`${dialogId}-title`}
+      class="m-auto w-[calc(100%-2rem)] max-w-2xl rounded-2xl bg-green p-0 text-light-green shadow-2xl backdrop:bg-black/70"
+    >
+      <div class="max-h-[85vh] overflow-y-auto p-6 sm:p-8">
+        <div class="mb-6 flex items-start justify-between gap-4">
+          <div>
+            <h2 id={`${dialogId}-title`} class="text-3xl font-bold">
+              {companyLink ? (
+                <a href={companyLink} target="_blank" rel="noopener noreferrer" class="hover:underline">{company}</a>
+              ) : (
+                company
+              )}
+            </h2>
+            <p class="mb-2 font-semibold text-light-green">{role}</p>
+            <p class="mb-2 font-semibold text-light-green">{startDate} till {endDate}</p>
+            <p class="text-sm text-light-green">{summary}</p>
+            <Divider />
+          </div>
+          <form method="dialog">
+            <button
+              type="submit"
+              aria-label="Close experience details"
+              class="grid size-10 shrink-0 place-items-center rounded-full bg-green/10 text-2xl leading-none transition-colors hover:bg-green/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brown"
+            >
+              &times;
+            </button>
+          </form>
+        </div>
+        <div class="space-y-4 text-sm leading-6 sm:text-base">
+          <slot name="details" />
+        </div>
+      </div>
+    </dialog>
+</article>
+
+<script>
+  function bindExperienceDialogs() {
+    document.querySelectorAll<HTMLButtonElement>("[data-experience-open]").forEach((button) => {
+      if (button.dataset.dialogBound) return;
+      button.dataset.dialogBound = "true";
+      button.addEventListener("click", () => {
+        const dialogId = button.dataset.experienceOpen;
+        const dialog = dialogId ? document.getElementById(dialogId) : null;
+        if (dialog instanceof HTMLDialogElement) dialog.showModal();
+      });
+    });
+
+    document.querySelectorAll<HTMLDialogElement>("[data-experience-dialog]").forEach((dialog) => {
+      if (dialog.dataset.dialogBound) return;
+      dialog.dataset.dialogBound = "true";
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+    });
+  }
+
+  bindExperienceDialogs();
+  document.addEventListener("astro:page-load", bindExperienceDialogs);
+</script>

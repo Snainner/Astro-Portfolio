@@ -12,6 +12,19 @@ const postsCollection = defineCollection({
   }),
 });
 
+const experienceCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    company: z.string(),
+    companyLink: z.string().url().optional(),
+    role: z.string(),
+    startDate: z.string(),
+    endDate: z.string(),
+    summary: z.string(),
+  }),
+});
+
 export const collections = {
   posts: postsCollection,
+  experience: experienceCollection,
 };

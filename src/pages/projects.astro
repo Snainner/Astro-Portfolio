@@ -11,43 +11,42 @@ const posts = await getCollection('posts');
 <html>
 
     <Layout backgroundColour="bg-white">
-        <section class="py-1 px-6">
-            <div class="max-w-6xl mx-auto">
-              <h1 class="text-5xl text-brown md:text-6xl font-bold text-center m-20 mb-4">
-                  Projects
-              </h1> 
-              <p class="text-brown text-center mb-12 max-w-2xl mx-auto">
-                  Explore all of my work and side projects
-              </p>
-                
-              <!-- All Projects Grid -->
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">                    
-                {posts.map((post:CollectionEntry<'posts'>) => (
-                      <a 
-                      href={`/${post.slug}`}
-              class="group block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-            >
-            <div class="aspect-4/3 w-full overflow-hidden bg-white items-center p-4" >
-              <Image
-                src={post.data.image}
-                alt={post.id}
-                class="w-full h-full object-cover group-hover:scale-105  rounded-lg transition-transform duration-300"
-                width={800}
-                height={600}
+    <section class="py-1 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h1 class="text-5xl text-brown md:text-6xl font-bold text-center m-20 mb-4">
+          Projects
+        </h1>
+        <p class="text-brown text-center mb-12 max-w-2xl mx-auto">
+          Explore all of my work and side projects
+        </p>
+
+        <!-- All Projects Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {posts.map((post) => (
+            <a
+              href={`/${post.slug}`}
+              class="group block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div class="aspect-[4/3] w-full overflow-hidden bg-white items-center p-4">
+                <Image
+                  src={post.data.image}
+                  alt={post.id}
+                  class="w-full h-full object-cover group-hover:scale-105 rounded-lg transition-transform duration-300"
+                  width={800}
+                  height={600}
                 />
-            </div>
-            
-            <div class="p-2">
-              <h2 class="text-lg md:text-xl text-center font-semibold text-brown -mt-4 mb-2">
-                {post.data.title}
-              </h2>
+              </div>
 
-            </div>
-          </a>
-        ))}
+              <div class="p-2">
+                <h2 class="text-lg md:text-xl text-center font-semibold text-brown -mt-4 mb-2">
+                  {post.data.title}
+                </h2>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
-  </section>
+    </section>
+  </Layout>
 
-</Layout>
 </html>
 

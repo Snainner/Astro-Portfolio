@@ -76,7 +76,7 @@ const { siteLogo, navLinks } = Astro.props;
   </button>
   <!-- Mobile Nav -->
   <nav
-    class="absolute top-20 left-1/2 -translate-x-1/2 w-[calc(100%-2.5rem)] hidden rounded-2xl border border-neutral/40 bg-offwhite px-4 py-5 text-brown sm:static sm:left-auto sm:translate-x-0 sm:w-auto sm:flex sm:border-0 sm:bg-transparent sm:p-0"
+    class="absolute top-full left-1/2 mt-2 -translate-x-1/2 w-[calc(100%-2.5rem)] hidden rounded-2xl border border-neutral/40 bg-offwhite px-4 py-5 text-brown sm:static sm:left-auto sm:mt-0 sm:translate-x-0 sm:w-auto sm:flex sm:border-0 sm:bg-transparent sm:p-0"
     id="main-menu"
   >
     <ul class="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -98,27 +98,32 @@ const { siteLogo, navLinks } = Astro.props;
 </header>
 
 <script>
-  // Toggle mobile menu
-  const button = document.querySelector("#menu-button");
-  const menu = document.querySelector("#main-menu");
   const navItems = document.querySelectorAll("#main-menu a.nav-item");
 
-  const toggleMenu = () => {
-    menu?.classList.toggle("hidden");
-    const isHidden = menu?.classList.contains("hidden");
-    button?.setAttribute("aria-expanded", `${!isHidden}`);
-  };
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
 
-  button?.addEventListener("click", toggleMenu);
+    const button = target.closest<HTMLButtonElement>("#menu-button");
+    const menu = document.querySelector<HTMLElement>("#main-menu");
+    if (!menu) return;
 
-  // Close menu when a nav item is clicked (mobile only)
-  navItems.forEach((item) => {
-    item?.addEventListener("click", () => {
-      // Only toggle on mobile (when menu button is visible)
-      if (window.innerWidth < 640 && !menu?.classList.contains("hidden")) {
-        toggleMenu();
-      }
-    });
+    if (button) {
+      const isExpanded = menu.classList.toggle("hidden") === false;
+      button.setAttribute("aria-expanded", String(isExpanded));
+      return;
+    }
+
+    if (
+      target.closest("#main-menu a.nav-item") &&
+      window.innerWidth < 640 &&
+      !menu.classList.contains("hidden")
+    ) {
+      menu.classList.add("hidden");
+      document
+        .querySelector("#menu-button")
+        ?.setAttribute("aria-expanded", "false");
+    }
   });
 
   // Update navigation based on scroll position with Intersection Observer

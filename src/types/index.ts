@@ -35,3 +35,12 @@ export interface ContactProps{
   description: string;
 
 }
+
+export interface ExperienceProps {
+  company: string;
+  role: string;
+  startDate: string;
+  endDate?: string;
+  summary: string;
+  link: string;
+}

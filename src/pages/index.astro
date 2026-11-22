@@ -1,13 +1,41 @@
 ---
 import { SITE_CONTENT } from "@config";
+import { getCollection, render } from "astro:content";
 import Hero from "@components/Hero.astro";
 import Layout from "@layouts/Layout.astro";
-
+import Experience from "@components/Experience.astro";
+import Divider from "@components/Divider.astro";
+import Section from "@components/Section.astro";
 import "../styles/global.css";
 import FeaturedProjects from "@components/FeaturedProjects.astro";
+
+const experienceEntries = await getCollection("experience");
+const experiences = await Promise.all(
+  experienceEntries.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
 ---
 
 <Layout background="black">
   <Hero slot="hero" {...SITE_CONTENT.hero} />  
   <FeaturedProjects/>
+  <Divider/>
+  <Section text="Experience" href="experience">
+    <div class="space-y-6">
+      {experiences.map(({ entry, Content }) => (
+        <Experience
+          company={entry.data.company}
+          companyLink={entry.data.companyLink}
+          role={entry.data.role}
+          startDate={entry.data.startDate}
+          endDate={entry.data.endDate}
+          summary={entry.data.summary}
+        >
+          <Content slot="details" />
+        </Experience>
+      ))}
+    </div>
+  </Section>
 </Layout>
