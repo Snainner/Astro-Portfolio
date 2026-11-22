@@ -67,15 +67,17 @@ const dialogId = `experience-dialog-${crypto.randomUUID()}`;
             </div>    
           </div>
           
-          <form method="dialog">
-            <button
+          <div class="sticky top-4 z-10 shrink-0 self-start">
+            <form method="dialog">
+              <button
               type="submit"
               aria-label="Close experience details"
               class="grid size-10 shrink-0 place-items-center rounded-full bg-green/10 text-2xl leading-none transition-colors hover:bg-green/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brown"
-            >
+              >
               &times;
             </button>
           </form>
+        </div>
         </div>
       </div>
     </dialog>
