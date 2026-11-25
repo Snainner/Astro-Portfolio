@@ -23,7 +23,7 @@ const posts = await getCollection('posts');
       href={`/${post.slug}`}
       class="group block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
       >
-        <div class="aspect-4/3 w-full overflow-hidden bg-white items-center p-4">
+        <div class="aspect-4/3 w-full overflow-hidden bg-offwhite items-center p-4">
           <Image
             src = {post.data.image}
             alt={post.data.title}
@@ -36,7 +36,7 @@ const posts = await getCollection('posts');
             />
         </div>
         
-        <div class="p-4">
+        <div class="p-4 bg-offwhite">
           <h2 class="text-lg md:text-xl text-center font-semibold text-brown mb-5">
             {post.data.title}
           </h2>
